@@ -20,7 +20,10 @@ console.log('setupServer is running...');
     }),
   );
 
-    
+     app.get('/', (req, res) => {
+    res.json({ message: 'Server is running!' });
+  });
+
     
 
   app.get('/api/contacts', async (req, res) => {
