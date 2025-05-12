@@ -3,7 +3,7 @@ import pino from 'pino-http';
 import cors from 'cors';
 import express from 'express';
 import initMongoConnection from "./db/initMongoConnection.js";
-import { contactModel } from './models/contacts.js';
+import { contactModel } from './services/contacts.js';
 const app = express();
 
 export default async function setupServer() {
@@ -26,28 +26,23 @@ console.log('setupServer is running...');
 
     
 
-  app.get('/api/contacts', async (req, res) => {
+  app.get('/contacts', async (req, res) => {
   const contacts = await contactModel.find();
   if (contacts.length === 0) {
     res.status(404).json({ message: 'Not found' });
   }
 
-    //   res.status(200).json({
-    //       status: 200,
-    //   message: 'Successfully found contacts!',
-    //   data: contacts,
-    //   });
       
       
-      
-      res.status(200).json({
+    res.json({
+      status: 200,
           message: 'Successfully found contacts!',
           data: contacts
       });
   });
 
 
-   app.get('/api/contacts/:contactId', async (req, res) => {
+   app.get('/contacts/:contactId', async (req, res) => {
     const { contactId } = req.params;
     const contact = await contactModel.findById(contactId);
  const allContacts = await contactModel.find();
