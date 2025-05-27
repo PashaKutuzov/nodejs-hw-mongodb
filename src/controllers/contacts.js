@@ -32,8 +32,6 @@ async function getContactsControllers(req, res) {
 async function getContactsByIdController(req, res) {
   const { contactId } = req.params;
   const contact = await getContactsById(contactId);
-  const allContacts = await getContacts();
-  console.log('All contacts in DB:', allContacts);
 
   if (!contact) {
     throw createHttpError(404, 'Not found');
