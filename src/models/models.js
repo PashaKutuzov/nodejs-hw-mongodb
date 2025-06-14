@@ -1,35 +1,38 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const contactSchema = new mongoose.Schema({
+const contactSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     phoneNumber: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        required: false
+      type: String,
+      required: false,
     },
     isFavourite: {
-        type: Boolean,
-        required: false,
-        default: false,
+      type: Boolean,
+      required: false,
+      default: false,
     },
     contactType: {
-        type: String,
-        enum: ['work', 'home', 'personal'],
-        required: false,
-        default: 'personal'   
+      type: String,
+      enum: ['work', 'home', 'personal'],
+      required: false,
+      default: 'personal',
     },
-   
-},
-    {
-        timestamps: true
-    }
-
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
 export const contactModel = mongoose.model('Contact', contactSchema);

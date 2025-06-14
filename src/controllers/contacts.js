@@ -11,16 +11,19 @@ import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 async function getContactsControllers(req, res) {
+  console.log(req.user);
+
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const filter = parseFilterParams(req.query);
-
+  const userId = req.user._id;
   const contacts = await getContacts({
     page,
     perPage,
     sortBy,
     sortOrder,
     filter,
+    userId,
   });
   res.json({
     status: 200,
@@ -37,6 +40,10 @@ async function getContactsByIdController(req, res) {
     throw createHttpError(404, 'Not found');
   }
 
+  if (contact.userId.toString() !== req.user._id.toString()) {
+    throw new createHttpError.Forbidden('Access denied for contact');
+  }
+
   res.json({
     status: 200,
     message: `Successfully found contact with id ${contactId}!`,
@@ -44,9 +51,9 @@ async function getContactsByIdController(req, res) {
   });
 }
 async function createContactsController(req, res) {
-  const contact = await createContacts(req.body);
-  console.log(contact);
-
+  const contact = await createContacts({ ...req.body, userId: req.user._id });
+  console.log('user:', req.user);
+  console.log('User ID:', req.user._id);
   res.status(201).json({
     status: 201,
     message: 'Successfully created a contact!',
