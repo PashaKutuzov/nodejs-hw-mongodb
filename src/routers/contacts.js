@@ -13,28 +13,20 @@ import { contactSchema, updateContactSchema } from '../validation/contact.js';
 
 const router = express.Router();
 const jsonParser = express.json();
-router.get('/', (req, res) => {
-  res.json({ message: 'Server is running!' });
-});
 
-router.get('/contacts', ctrlWrapper(getContactsControllers));
+router.get('/', ctrlWrapper(getContactsControllers));
 
-router.get(
-  '/contacts/:contactId',
-  isValidId,
-  ctrlWrapper(getContactsByIdController)
-);
+router.get('/:contactId', isValidId, ctrlWrapper(getContactsByIdController));
 
 router.post(
-  '/contacts',
+  '/',
   jsonParser,
   validateBody(contactSchema),
   ctrlWrapper(createContactsController)
 );
-export default router;
 
 router.patch(
-  '/contacts/:contactId',
+  '/:contactId',
   isValidId,
   jsonParser,
   validateBody(updateContactSchema),
@@ -42,7 +34,8 @@ router.patch(
 );
 
 router.delete(
-  '/contacts/:contactId',
+  '/:contactId',
   isValidId,
   ctrlWrapper(deleteContactsByIdController)
 );
+export default router;
