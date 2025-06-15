@@ -38,19 +38,21 @@ export async function getContacts({
     totalPages,
     hasPreviousPage: page > 1,
     hasNextPage: totalPages > page,
-    filter,
+    // filter,
   };
 }
-export function getContactsById(contactId) {
-  return contactModel.findById(contactId);
+export function getContactsById(contactId, userId) {
+  return contactModel.findOne({ _id: contactId, userId });
 }
-export function deleteContactsById(contactId) {
-  return contactModel.findByIdAndDelete(contactId);
+export function deleteContactsById(contactId, userId) {
+  return contactModel.findOneAndDelete({ _id: contactId, userId });
 }
 export function createContacts(payload) {
   return contactModel.create(payload);
 }
 
-export function patchContacts(contactId, payload) {
-  return contactModel.findByIdAndUpdate(contactId, payload, { new: true });
+export function patchContacts(contactId, payload, userId) {
+  return contactModel.findOneAndUpdate({ _id: contactId, userId }, payload, {
+    new: true,
+  });
 }
