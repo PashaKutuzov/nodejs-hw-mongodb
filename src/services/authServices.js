@@ -56,7 +56,7 @@ export async function refreshUser(sessionId, refreshToken) {
   await sessionModel.deleteOne({ _id: session._id });
 
   return sessionModel.create({
-    userId: session._id,
+    userId: session.userId,
     accessToken: crypto.randomBytes(30).toString('base64'),
     refreshToken: crypto.randomBytes(30).toString('base64'),
     accessTokenValidUntil: new Date(Date.now() + 60 * 60 * 1000),

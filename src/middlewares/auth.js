@@ -32,9 +32,10 @@ export default async function auth(req, res, next) {
   if (session.accessTokenValidUntil < new Date()) {
     return next(new createHttpError.Unauthorized('Token is expired'));
   }
-  const user = await userModel.findOne({
-    _id: new mongoose.Types.ObjectId(session.userId),
-  });
+  // const user = await userModel.findOne({
+  //   _id: new mongoose.Types.ObjectId(session.userId),
+  // });
+  const user = await userModel.findById(session.userId);
   if (user === null) {
     return next(
       new createHttpError.Unauthorized(
@@ -43,7 +44,8 @@ export default async function auth(req, res, next) {
     );
   }
 
-  // req.user = { _id: user._id, name: user.name };
   req.user = await userModel.findOne({ _id: session.userId });
+  // req.user = user;
+  // req.sessionId = session._id;
   next();
 }
