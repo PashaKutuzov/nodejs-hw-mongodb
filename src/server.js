@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import path from 'node:path';
 import pino from 'pino-http';
 import cors from 'cors';
 import express from 'express';
@@ -21,6 +22,10 @@ export default async function setupServer() {
         target: 'pino-pretty',
       },
     })
+  );
+  app.use(
+    '/avatars',
+    express.static(path.resolve('src', 'uploads', 'avatars'))
   );
   app.use('/auth', authRoutes);
   app.use('/contacts', auth, contactsRouter);
