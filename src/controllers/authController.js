@@ -3,6 +3,8 @@ import {
   registerUser,
   logoutUser,
   refreshUser,
+  sendResetPassword,
+  ResetPassword,
 } from '../services/authServices.js';
 
 export async function registerController(req, res) {
@@ -57,5 +59,32 @@ export async function refreshController(req, res) {
     status: 200,
     message: 'Successfully refreshed a session!',
     data: { accessToken: session.accessToken },
+  });
+}
+
+export async function sendResetPasswordController(req, res) {
+  try {
+    const { email } = req.body;
+
+    await sendResetPassword(email);
+
+    res.json({
+      status: 200,
+      message: 'Reset password email has been successfully sent.',
+      data: { email },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('❌ Email failed: ' + error.message);
+  }
+}
+
+export async function resetPasswordController(req, res) {
+  const { password, token } = req.body;
+
+  await ResetPassword(password, token);
+  res.json({
+    status: 200,
+    message: 'Password has been successfully reset.',
   });
 }

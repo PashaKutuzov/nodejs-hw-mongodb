@@ -1,3 +1,6 @@
+import * as fs from 'node:fs/promises';
+import path from 'node:path';
+
 import createHttpError from 'http-errors';
 import {
   getContacts,
@@ -9,6 +12,7 @@ import {
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
 
 async function getContactsControllers(req, res) {
   console.log(req.user);
@@ -52,9 +56,27 @@ async function getContactsByIdController(req, res) {
   });
 }
 async function createContactsController(req, res) {
-  const contact = await createContacts({ ...req.body, userId: req.user._id });
-  console.log('user:', req.user);
-  console.log('User ID:', req.user._id);
+  let avatar = null;
+
+  if (process.env.UPLOAD_TO_CLOUDINARY === 'true') {
+    const result = await uploadToCloudinary(req.file.path);
+
+    await fs.unlink(req.file.path);
+    avatar = result.secure_url;
+  } else {
+    await fs.rename(
+      req.file.path,
+      path.resolve('src', 'uploads', 'avatars', req.file.filename)
+    );
+    avatar = `http://localhost:3000/avatars/${req.file.filename}`;
+  }
+
+  const contact = await createContacts({
+    ...req.body,
+    userId: req.user._id,
+    avatar,
+  });
+
   res.status(201).json({
     status: 201,
     message: 'Successfully created a contact!',

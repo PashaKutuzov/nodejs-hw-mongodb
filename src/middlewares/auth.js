@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import { sessionModel } from '../models/sessionModels.js';
 import { userModel } from '../models/userModels.js';
 export default async function auth(req, res, next) {
