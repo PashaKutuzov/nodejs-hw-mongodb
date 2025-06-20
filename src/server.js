@@ -23,10 +23,7 @@ export default async function setupServer() {
       },
     })
   );
-  app.use(
-    '/avatars',
-    express.static(path.resolve('src', 'uploads', 'avatars'))
-  );
+  app.use('/photos', express.static(path.resolve('src', 'uploads', 'photos')));
   app.use('/auth', authRoutes);
   app.use('/contacts', auth, contactsRouter);
   app.use(notFoundHandler);
