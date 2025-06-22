@@ -1,7 +1,7 @@
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
-
 import createHttpError from 'http-errors';
+import multer from 'multer';
 import {
   getContacts,
   getContactsById,
@@ -58,24 +58,26 @@ async function getContactsByIdController(req, res) {
 async function createContactsController(req, res) {
   let photo = null;
 
-  if (process.env.UPLOAD_TO_CLOUDINARY === 'true') {
-    const result = await uploadToCloudinary(req.file.path);
-
-    await fs.unlink(req.file.path);
-    photo = result.secure_url;
-  } else {
-    await fs.rename(
-      req.file.path,
-      path.resolve('src', 'uploads', 'photos', req.file.filename)
-    );
-    photo = `http://localhost:3000/photos/${req.file.filename}`;
+  if (req.file) {
+    if (process.env.UPLOAD_TO_CLOUDINARY === 'true') {
+      const result = await uploadToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+      photo = result.secure_url;
+    } else {
+      const targetDir = path.resolve('src', 'uploads', 'photos');
+      const targetPath = path.join(targetDir, req.file.filename);
+      await fs.rename(req.file.path, targetPath);
+      photo = `http://localhost:3000/photos/${req.file.filename}`;
+    }
   }
 
-  const contact = await createContacts({
+  const contactData = {
     ...req.body,
     userId: req.user._id,
     photo,
-  });
+  };
+
+  const contact = await createContacts(contactData);
 
   res.status(201).json({
     status: 201,

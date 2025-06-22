@@ -1,0 +1,92 @@
+tags:
+  - Contacts
+summary: Get all contacts
+operationId: getAllContacts
+description: Returns a list of all contacts
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+      example: 1
+  - in: query
+    name: perPage
+    schema:
+      type: integer
+      example: 10
+  - in: query
+    name: sortBy
+    schema:
+      type: string
+      description: List of contacts sort by
+      enum: ['name', 'isFavourite', 'contactType']
+      example: name
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      description: List of contacts sort order
+      enum: ['asc', 'desc']
+      example: asc
+  - in: query
+    name: contactType
+    schema:
+      type: string
+      description: List of contacts filter by contactType
+      enum: ['work', 'home', 'personal']
+      example: personal
+  - in: query
+    name: phoneNumber
+    schema:
+      type: string
+      description: List of contacts filter by phone number
+      example: '1234'
+  - in: query
+    name: name
+    schema:
+      type: string
+      description: List of contacts filter by name
+      example: 'Jon'
+  - in: query
+    name: email
+    schema:
+      type: string
+      description: List of contacts filter by email
+      example: 'mail'
+  - in: query
+    name: isFavourite
+    schema:
+      type: boolean
+      description: List of contacts filter by favourite
+      example: true
+responses:
+  '200':
+    description: Successfully found contacts
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contacts!
+            data:
+              type: array
+              items:
+                $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\components\schemas\contact.yaml
+
+  '401':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\401.yaml
+  '404':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\404.yaml
+  '500':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\500.yaml

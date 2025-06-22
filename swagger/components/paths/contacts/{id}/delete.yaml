@@ -1,0 +1,24 @@
+# This file should be referenced under the path /contacts/{id} in your OpenAPI root file, not /contacts
+tags:
+  - Contacts
+summary: Delete a contact by ID
+operationId: deleteContactById
+description: Delete a contact by ID
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+      example: 507f191e810c19729de860ea
+responses:
+  '204':
+    description: Contact deleted successfully
+  '401':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\401.yaml
+  '404':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\404.yaml
+  '500':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\500.yaml

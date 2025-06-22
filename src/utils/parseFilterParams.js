@@ -6,18 +6,18 @@ function parsedType(value) {
   const isType = (value) => ['personal', 'home', 'work'].includes(value);
   if (isType(value)) return value;
 }
-function parsedIsFavourite(value) {
+function parsedIsFavorite(value) {
   if (value === 'true') return true;
   if (value === 'false') return false;
   return;
 }
 export function parseFilterParams(query) {
-  const { type, isFavourite } = query;
+  const { type, isFavorite } = query;
 
   const parseType = parsedType(type);
-  const parseIsFavourite = parsedIsFavourite(isFavourite);
+  const parseIsFavorite = parsedIsFavorite(isFavorite);
   return {
     type: parseType,
-    isFavourite: parseIsFavourite,
+    isFavorite: parseIsFavorite,
   };
 }

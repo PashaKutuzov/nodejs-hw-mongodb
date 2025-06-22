@@ -1,0 +1,73 @@
+tags:
+  - Contacts
+summary: Update a contact by ID
+operationId: updateContactById
+description: Update contact by ID and return a updated contact
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+      example: 507f191e810c19729de860ea
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Contact name
+            example: Jone Doe
+          phoneNumber:
+            type: string
+            description: Contact phone phone number
+            example: '+380112223345'
+          email:
+            type: string
+            description: Contact email
+            example: mail@mail.com
+          isFavorite:
+            type: boolean
+            description: Contact is favorite
+            example: true
+            default: false
+          contactType:
+            type: string
+            description: Type of contact
+            enum: ['work', 'home', 'personal']
+            default: personal
+          photo:
+            type: string
+            format: binary
+            description: Photo of contact
+responses:
+  '200':
+    description: Successfully updeted a contact
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully patched a contact!
+            data:
+              $ref: components/schemas/contact.yaml
+
+  '401':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\401.yaml
+  '404':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\404.yaml
+  '500':
+    $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\500.yaml
