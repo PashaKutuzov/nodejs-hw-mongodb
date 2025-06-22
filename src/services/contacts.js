@@ -17,8 +17,8 @@ export async function getContacts({
   if (filter.type) {
     contactQuery.where('contactType').equals(filter.type);
   }
-  if (filter.isFavourite !== undefined) {
-    contactQuery.where('isFavourite').equals(filter.isFavourite);
+  if (filter.isFavorite !== undefined) {
+    contactQuery.where('isFavorite').equals(filter.isFavorite);
   }
   const [totalItems, data] = await Promise.all([
     contactModel.countDocuments(contactQuery.getQuery()),

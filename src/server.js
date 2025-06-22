@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import swaggerUI from 'swagger-ui-express';
+import * as fs from 'fs';
 import path from 'node:path';
 import pino from 'pino-http';
 import cors from 'cors';
@@ -10,6 +12,7 @@ import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
 import authRoutes from './routers/auth.js';
 import auth from './middlewares/auth.js';
+
 const app = express();
 
 export default async function setupServer() {
@@ -23,6 +26,11 @@ export default async function setupServer() {
       },
     })
   );
+  const SWAGGER_DOCS = JSON.parse(
+    fs.readFileSync(path.join('docs', 'swagger.json'), 'utf-8')
+  );
+
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(SWAGGER_DOCS));
   app.use('/photos', express.static(path.resolve('src', 'uploads', 'photos')));
   app.use('/auth', authRoutes);
   app.use('/contacts', auth, contactsRouter);
