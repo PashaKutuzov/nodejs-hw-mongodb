@@ -11,8 +11,8 @@ tags:
     description: operetion with contacts
 
 servers:
-  - url: http://localhost:3000
-  # - url: #посилання на задеплоєний сайт
+  - url: https://nodejs-hw-mongodb-5-1vvd.onrender.com
+  - url: http://127.0.0.1:3000
 paths:
   /contacts:
     post:

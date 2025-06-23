@@ -21,7 +21,7 @@ parameters:
     schema:
       type: string
       description: List of contacts sort by
-      enum: ['name', 'isFavourite', 'contactType']
+      enum: ['name', 'isFavorite', 'contactType']
       example: name
   - in: query
     name: sortOrder
@@ -30,36 +30,12 @@ parameters:
       description: List of contacts sort order
       enum: ['asc', 'desc']
       example: asc
+
   - in: query
-    name: contactType
-    schema:
-      type: string
-      description: List of contacts filter by contactType
-      enum: ['work', 'home', 'personal']
-      example: personal
-  - in: query
-    name: phoneNumber
-    schema:
-      type: string
-      description: List of contacts filter by phone number
-      example: '1234'
-  - in: query
-    name: name
-    schema:
-      type: string
-      description: List of contacts filter by name
-      example: 'Jon'
-  - in: query
-    name: email
-    schema:
-      type: string
-      description: List of contacts filter by email
-      example: 'mail'
-  - in: query
-    name: isFavourite
+    name: isFavorite
     schema:
       type: boolean
-      description: List of contacts filter by favourite
+      description: List of contacts filter by favorite
       example: true
 responses:
   '200':
