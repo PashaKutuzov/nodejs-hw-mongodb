@@ -59,7 +59,39 @@ responses:
               type: array
               items:
                 $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\components\schemas\contact.yaml
-
+                page:
+                  type: integer
+                perPage:
+                  type: integer
+                totalItems:
+                  type: integer
+                totalPages:
+                  type: integer
+                hasPreviousPage:
+                  type: boolean
+                hasNextPage:
+                  type: boolean
+          example:
+            status: 200
+            message: Successfully found contacts!
+            data:
+              data:
+                - _id: 97dfvsd78vdf8s5
+                  name: Jone Doe
+                  phoneNumber: '+38099999999'
+                  email: mail@mail.com
+                  isFavorite: false
+                  contactType: personal
+                  userId: 8s7d6fsd765dcs8d7vsdvs
+                  photo: https://res.cloudinary.com/dm6jfl64t/image/upload/v1750360223/yw62b0bnamsjnh4l59vg.png
+                  createdAt: 2025-06-07T21:24:43.983+00:00
+                  updatedAt: 2025-11-23T12:04:13.983+00:00
+              page: 1
+              perPage: 10
+              totalItems: 1
+              totalPages: 1
+              hasPreviousPage: false
+              hasNextPage: false
   '401':
     $ref: D:\projects\Pasha Kutuzov\node-js\nodejs-hw-mongodb\swagger\components\paths\contacts\{id}\responses\401.yaml
   '404':
